@@ -196,30 +196,32 @@ class reserve:
         tl = max_loc
         return tl[0]
 
+     #submit 方法负责执行预约流程。它在尝试预约之前会获取页面 token，
+ # 并根据需要解决验证码。然后使用 get_submit 提交预约请求。新的的时间段预约要求新的submit请求（每次请求的token不同）
     def submit(self, times, roomid, seatid, action):
         for seat in seatid:
             suc = False
-            while ~suc and self.max_attempt > 0:
-                token = self._get_page_token(self.url.format(roomid, seat))
-                logging.info(f"Get token: {token}")
-                captcha = self.resolve_captcha() if self.enable_slider else "" 
-                logging.info(f"Captcha token {captcha}")
-                suc = self.get_submit(self.submit_url, times=times,token=token, roomid=roomid, seatid=seat, captcha=captcha, action=action)
-                if suc:
-                    return suc
-                time.sleep(self.sleep_time)
-                self.max_attempt -= 1
-        return suc
+            while not suc and self.max_attempt > 0:
+                for time_slot in [(times[0], times[1]), (times[1], times[2]), (times[2], times[3])]:
+                    token = self._get_page_token(self.url.format(roomid, seat))
+                    logging.info(f"Get token: {token}")
+                    captcha = self.resolve_captcha() if self.enable_slider else ""
+                    logging.info(f"Captcha token {captcha}")
+                    suc = self.get_submit(self.submit_url, time_slot, token, roomid, seat, captcha, action)
+                   
+                    time.sleep(self.sleep_time)
+                    self.max_attempt -= 1
+            return False
 
-    def get_submit(self, url, times, token, roomid, seatid, captcha="", action=False):
+    def get_submit(self, url, time_slot, token, roomid, seatid, captcha="", action=False):
         delta_day = 1 if self.reserve_next_day else 0
         day = datetime.date.today() + datetime.timedelta(days=0+delta_day)  # 预约今天，修改days=1表示预约明天
         if action:
             day = datetime.date.today() + datetime.timedelta(days=1+delta_day)  # 由于action时区问题导致其早+8区一天
         parm = {
             "roomId": roomid,
-            "startTime": times[0],
-            "endTime": times[1],
+            "startTime": time_slot[0],
+            "endTime": time_slot[1],
             "day": str(day),
             "seatNum": seatid,
             "captcha": captcha,
@@ -230,6 +232,6 @@ class reserve:
         html = self.requests.post(
             url=url, params=parm, verify=True).content.decode('utf-8')
         self.submit_msg.append(
-            times[0] + "~" + times[1] + ':  ' + str(json.loads(html)))
+            time_slot[0] + "~" + time_slot[1] + ':  ' + str(json.loads(html)))
         logging.info(json.loads(html))
         return json.loads(html)["success"]
