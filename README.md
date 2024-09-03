@@ -37,7 +37,7 @@ pip install numpy, opencv-python
 
 #### 2、 获取roomid（图书馆id）和seatid（座位号）
 
-在使用之前需要先在如下获取图书馆对应的id和座位号，下面的配置里已经提供了上海大学图书馆的id。对于不知道id的，可以通过如下方式进行：
+在使用之前需要先在如下获取图书馆对应的id和座位号，对于不知道id的，可以通过如下方式进行：
 
 ![image-20231012153826054](https://zideapicbed.oss-cn-shanghai.aliyuncs.com/img/image-20231012153826054.png)
 
@@ -59,11 +59,6 @@ pip install numpy, opencv-python
 
 在Linux下可以使用如下方式添加crontab , 运行：`crontab -e`添加指令 :`0 7 * * * python3 main.py`
 
-- windows环境下：
-
-windows下使用时间任务:
-
-![](https://zideapicbed.oss-cn-shanghai.aliyuncs.com/QQ%E5%9B%BE%E7%89%8720221120213736.png)
 
 ### github actions部署方式（目前应该没有问题了）：
 
