@@ -2,7 +2,7 @@ name: Morning Task
 
 on:
   schedule:
-    - cron: '0 2 * * *' # 每天早上6点（北京时间）启动
+  - cron: '0 22 * * *' # 每天的 UTC 时间晚上 10 点，即北京时间早上 6 点触发
   workflow_dispatch:
 
 jobs:
