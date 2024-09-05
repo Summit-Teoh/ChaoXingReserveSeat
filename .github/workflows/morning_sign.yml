@@ -2,7 +2,7 @@ name: Morning Sign
 
 on:
   schedule:
-    - cron: '0 4 * * *' # 每天早上8点（北京时间）启动
+    - cron: '0 0 * * *' # 每天早上8点（北京时间）启动
   workflow_dispatch:
 
 jobs:
