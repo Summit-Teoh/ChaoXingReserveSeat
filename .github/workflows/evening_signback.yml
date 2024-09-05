@@ -2,7 +2,7 @@ name: Evening Signback
 
 on:
   schedule:
-    - cron: '0 13 * * *' # 每天晚上9点（北京时间）启动
+    - cron: '30 11 * * *' # 每天晚上7:30点（北京时间）启动
   workflow_dispatch:
 
 jobs:
