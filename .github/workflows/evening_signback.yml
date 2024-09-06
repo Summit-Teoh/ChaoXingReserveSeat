@@ -1,4 +1,4 @@
-name: Evening Signback
+name: Evening Signback（每晚7：30签退）
 
 on:
   schedule:
