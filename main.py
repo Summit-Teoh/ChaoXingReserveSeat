@@ -152,7 +152,7 @@ if __name__ == "__main__":
     config_path = os.path.join(os.path.dirname(__file__), 'config.json') #得到完整的配置文件路径
     parser = argparse.ArgumentParser(prog='Chao Xing seat auto reserve')
     parser.add_argument('-u','--user', default=config_path, help='user config file')
-    parser.add_argument('-m','--method', default="reserve" ,choices=["reserve", "debug", "room" ,"sign" ,"signback"], help='默认检测系统时间运行，debug模式立即运行，room选项中的deptIdEnc参数在预约记录的get请求中')
+    parser.add_argument('-m','--method', default="signback" ,choices=["reserve", "debug", "room" ,"sign" ,"signback"], help='默认检测系统时间运行，debug模式立即运行，room选项中的deptIdEnc参数在预约记录的get请求中')
     parser.add_argument('-a','--action', action="store_true",help='use --action to enable in github action')
     args = parser.parse_args()  #解析命令行参数，将解析结果存储在 args 对象中
     func_dict = {"reserve": main, "debug":debug, "room": get_roomid ,"sign": sign , "signback": signback}
