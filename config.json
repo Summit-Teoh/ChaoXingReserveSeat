@@ -2,7 +2,7 @@
     "reserve": [
         {"username": "xxxxxxxxxx",
         "password": "xxxxxxxxx",
-        "time": [ "08:00",
+        "time": [ "08:30",
                   "12:00",
                   "16:00",
                   "20:00"],
