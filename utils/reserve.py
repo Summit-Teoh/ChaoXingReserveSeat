@@ -175,7 +175,7 @@ class reserve:
             return cropped_image
         c_captcha_headers = {
             "Referer": "https://office.chaoxing.com/",
-            "Host": "captcha-c.chaoxing.com",
+            "Host": "captcha-b.chaoxing.com",
             "Pragma" : 'no-cache',
             "Sec-Ch-Ua": '"Google Chrome";v="125", "Chromium";v="125", "Not.A/Brand";v="24"',
             'Sec-Ch-Ua-Mobile':'?0',
