@@ -24,10 +24,7 @@
 到目前为止这个项目似乎就停在这里了
 
 
-## 注意
 
-
-该版本试验性支持滑块验证，目前已经过测试可以使用，如果有滑块验证，请参考下面的**高级设置**部分
 
 ## 如何使用
 
@@ -41,11 +38,7 @@
 pip install cryptography
 ```
 
-如果有滑块验证，则需要额外安装numpy和opencv-python
 
-```bash
-pip install numpy, opencv-python
-```
 
 #### 2、 获取roomid（图书馆id）和seatid（座位号）
 
