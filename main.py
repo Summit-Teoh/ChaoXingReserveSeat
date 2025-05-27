@@ -12,16 +12,15 @@ get_current_dayofweek = lambda action: time.strftime("%A", time.localtime(time.t
 
 
 SLEEPTIME = 1 # 每次抢座的间隔
-ENDTIME = "21:40:30" # 根据学校的预约座位时间+1min即可,截止时间，系统时间小于此时间就一直执行
+ENDTIME = "00:00:00" # 根据学校的预约座位时间+1min即可,截止时间，系统时间小于此时间就一直执行
 
-ENABLE_SLIDER = False # 是否有滑块验证
 MAX_ATTEMPT = 3 # 最大尝试次数
 RESERVE_NEXT_DAY = False # 预约明天而不是今天的 
 
 
 
 def login_and_reserve(users, usernames, passwords, action, success_list=None):
-    logging.info(f"Global settings: \nSLEEPTIME: {SLEEPTIME}\nENDTIME: {ENDTIME}\nENABLE_SLIDER: {ENABLE_SLIDER}\nRESERVE_NEXT_DAY: {RESERVE_NEXT_DAY}")
+    logging.info(f"Global settings: \nSLEEPTIME: {SLEEPTIME}\nENDTIME: {ENDTIME}\nRESERVE_NEXT_DAY: {RESERVE_NEXT_DAY}")
     if action and len(usernames.split(",")) != len(users):
         raise Exception("user number should match the number of config")
     if success_list is None:
@@ -36,7 +35,7 @@ def login_and_reserve(users, usernames, passwords, action, success_list=None):
             continue
         if not success_list[index]: 
             logging.info(f"----------- {username} -- {times} -- {seatid} try -----------")
-            s = reserve(sleep_time=SLEEPTIME, max_attempt=MAX_ATTEMPT, enable_slider=ENABLE_SLIDER, reserve_next_day=RESERVE_NEXT_DAY)
+            s = reserve(sleep_time=SLEEPTIME, max_attempt=MAX_ATTEMPT, reserve_next_day=RESERVE_NEXT_DAY)
             s.get_login_status()
             s.login(username, password)
             s.requests.headers.update({'Host': 'office.chaoxing.com'})
@@ -54,7 +53,7 @@ def main(users, action=False):
         usernames, passwords = get_user_credentials(action)     #获取用户名密码的方式
     success_list = None
     current_dayofweek = get_current_dayofweek(action)
-    today_reservation_num = sum( 1 
+    today_reservation_num = sum(  1 
                                 for user in users
                                        if current_dayofweek in user.get('daysofweek')) #大佬的代码好难，简单来说today_reservation_num用于统计当天有多少人需要预约
                                         
@@ -69,7 +68,7 @@ def main(users, action=False):
 
 
 def debug(users, action=False):
-    logging.info(f"Global settings: \nSLEEPTIME: {SLEEPTIME}\nENDTIME: {ENDTIME}\nENABLE_SLIDER: {ENABLE_SLIDER}\nRESERVE_NEXT_DAY: {RESERVE_NEXT_DAY}")
+    logging.info(f"Global settings: \nSLEEPTIME: {SLEEPTIME}\nENDTIME: {ENDTIME}\nRESERVE_NEXT_DAY: {RESERVE_NEXT_DAY}")
     suc = False
     logging.info(f" Debug Mode start! , action {'on' if action else 'off'}")
     if action:
@@ -85,7 +84,7 @@ def debug(users, action=False):
             logging.info("Today not set to reserve")
             continue
         logging.info(f"----------- {username} -- {times} -- {seatid} try -----------")
-        s = reserve(sleep_time=SLEEPTIME,  max_attempt=MAX_ATTEMPT, enable_slider=ENABLE_SLIDER, reserve_next_day=RESERVE_NEXT_DAY)
+        s = reserve(sleep_time=SLEEPTIME,  max_attempt=MAX_ATTEMPT, reserve_next_day=RESERVE_NEXT_DAY)
         s.get_login_status()
         s.login(username, password)
         s.requests.headers.update({'Host': 'office.chaoxing.com'})
@@ -139,7 +138,7 @@ def signback(users, action=False):
 def get_roomid(args1, args2):
     username = input("请输入用户名：")
     password = input("请输入密码：")
-    s = reserve(sleep_time=SLEEPTIME, max_attempt=MAX_ATTEMPT, enable_slider=ENABLE_SLIDER, reserve_next_day=RESERVE_NEXT_DAY)
+    s = reserve(sleep_time=SLEEPTIME, max_attempt=MAX_ATTEMPT, reserve_next_day=RESERVE_NEXT_DAY)
     s.get_login_status()
     s.login(username=username, password=password)
     s.requests.headers.update({'Host': 'office.chaoxing.com'})
